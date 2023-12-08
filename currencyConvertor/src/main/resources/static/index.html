@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<label>Enter Base Currency</label>
+<input type="text" id="baseCurrency"><br><br>
+
+<label>Enter Target Currency</label>
+<input type="text" id="targetCurrency"><br><br>
+
+<label>Enter Value</label>
+<input type="number" id="amount"><br><br>
+
+<button onclick="convertCurrency()">Convert</button><br><br>
+
+<h2 id="result"></h2>
+
+<script>
+        function convertCurrency() {
+
+            const baseCurrency = document.getElementById('baseCurrency').value;
+            const targetCurrency = document.getElementById('targetCurrency').value;
+            const amount = document.getElementById('amount').value;
+
+
+            const apiUrl = `http://localhost:8088/currency/convert?baseCurrency=${baseCurrency}&targetCurrency=${targetCurrency}&amount=${amount}`;
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(result => {
+                    document.getElementById('result').innerText = result;
+                })
+                .catch(error => {
+<!--                    console.error('Error:', error);-->
+                    document.getElementById('result').innerText = ' currency format error or server error';
+                });
+        }
+
+
+</script>
+</body>
+</html>
